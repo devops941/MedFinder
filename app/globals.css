@@ -10,17 +10,30 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --color-medblue-50: #eff6ff;
+  --color-medblue-100: #dbeafe;
+  --color-medblue-400: #60a5fa;
+  --color-medblue-500: #3b82f6;
+  --color-medblue-600: #2563eb;
+  --color-medblue-700: #1d4ed8;
+
+  --color-medgreen-50: #ecfdf5;
+  --color-medgreen-100: #d1fae5;
+  --color-medgreen-500: #10b981;
+  --color-medgreen-600: #059669;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html { 
+  scroll-behavior: smooth; 
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #eff6ff 0%, #ecfdf5 100%);
 }
