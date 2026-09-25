@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import Link from 'next/link';
 
 export default function StorePurchasePage() {
@@ -57,20 +55,15 @@ export default function StorePurchasePage() {
     const qty = quantities[med.name] || 1;
     setReserving(med.name);
 
-    // Simulate API call for reservation
-    setTimeout(() => {
-      alert(`Successfully reserved ${qty}x ${med.name} at ${store.name} for $${(qty * parseFloat(med.price)).toFixed(2)}`);
-      setReserving(null);
-    }, 800);
+    // Simulate API call for reservation (now instant)
+    alert(`Successfully reserved ${qty}x ${med.name} at ${store.name} for $${(qty * parseFloat(med.price)).toFixed(2)}`);
+    setReserving(null);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Navbar />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-medblue-600"></div>
-        </div>
+      <div className="flex-grow flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-medblue-600"></div>
       </div>
     );
   }
@@ -282,11 +275,10 @@ export default function StorePurchasePage() {
 
                             if (response.ok) {
                               setShowSuccess(true);
-                              setTimeout(() => {
-                                setQuantities({});
-                                setShowSuccess(false);
-                                setReserving(null);
-                              }, 3500); // Hide success after 3.5s
+                              setQuantities({});
+                              setShowSuccess(false);
+                              setReserving(null);
+                              router.push('/purchase/history');
                             } else {
                               throw new Error('Failed to reserve');
                             }

@@ -54,15 +54,13 @@ export default function RegisterStoreModal({ isOpen, onClose, userEmail }: Regis
 
       if (data.success) {
         setMessage({ text: 'Pharmacy Registered Successfully!', type: 'success' });
-        setTimeout(() => {
-          onClose();
-          // Reset form
-          setStoreName(''); setAddress(''); setCity(''); setPincode('');
-          setMedName(''); setMedPrice(''); setMedStock('');
-          setMessage(null);
-          // Dispatch event to refresh store list
-          window.dispatchEvent(new Event('store-added'));
-        }, 1500);
+        onClose();
+        // Reset form
+        setStoreName(''); setAddress(''); setCity(''); setPincode('');
+        setMedName(''); setMedPrice(''); setMedStock('');
+        setMessage(null);
+        // Dispatch event to refresh store list
+        window.dispatchEvent(new Event('store-added'));
       } else {
         setMessage({ text: data.message || 'Error registering store', type: 'error' });
       }

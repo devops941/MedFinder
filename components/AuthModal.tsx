@@ -68,22 +68,20 @@ export default function AuthModal({ isOpen, onClose, role }: AuthModalProps) {
           window.dispatchEvent(new Event('user-login'));
         }
 
-        // After a delay, close the modal and navigate
-        setTimeout(() => {
-          onClose();
-          // Clear inputs for next time
-          setEmail(''); setPassword(''); setName(''); setMobile('');
-          setMode('login');
-          setMessage(null);
-          
-          if (data.data?.user) {
-            if (data.data.user.role === 'staff') {
-              router.push('/store');
-            } else if (data.data.user.role === 'customer') {
-              router.push('/purchase');
-            }
+        // Close the modal and navigate immediately
+        onClose();
+        // Clear inputs for next time
+        setEmail(''); setPassword(''); setName(''); setMobile('');
+        setMode('login');
+        setMessage(null);
+        
+        if (data.data?.user) {
+          if (data.data.user.role === 'staff') {
+            router.push('/store');
+          } else if (data.data.user.role === 'customer') {
+            router.push('/purchase');
           }
-        }, 1000);
+        }
       } else {
         setMessage({ text: data.message, type: 'error' });
       }

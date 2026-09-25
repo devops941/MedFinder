@@ -13,6 +13,7 @@ export default function EditStorePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Store Details
   const [storeName, setStoreName] = useState('');
@@ -125,9 +126,7 @@ export default function EditStorePage() {
 
       if (data.success) {
         setMessage({ text: 'Pharmacy Updated Successfully! Redirecting...', type: 'success' });
-        setTimeout(() => {
-          router.push('/store');
-        }, 1500);
+        router.push('/store');
       } else {
         setMessage({ text: data.message || 'Error updating store', type: 'error' });
       }
@@ -162,16 +161,7 @@ export default function EditStorePage() {
           </div>
           <div className="flex items-center gap-4">
             <button 
-              onClick={async () => {
-                if (confirm('Are you sure you want to delete this pharmacy? This cannot be undone.')) {
-                  try {
-                    const res = await fetch(`/api/store/${storeId}`, { method: 'DELETE' });
-                    if (res.ok) router.push('/store');
-                  } catch (err) {
-                    alert('Error deleting pharmacy');
-                  }
-                }
-              }}
+              onClick={() => setShowDeleteModal(true)}
               className="text-sm text-red-500 hover:text-red-700 transition-colors font-semibold bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg"
             >
               <i className="fa-solid fa-trash mr-2"></i>Delete Store
@@ -334,7 +324,39 @@ export default function EditStorePage() {
         
       </main>
 
-      
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-3xl p-6 md:p-8 w-full max-w-sm shadow-2xl relative animate-fade-in-up border border-gray-100 text-center">
+            <div className="w-16 h-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-4">
+              <i className="fa-solid fa-triangle-exclamation text-2xl"></i>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Delete Pharmacy?</h2>
+            <p className="text-gray-500 mb-6 text-sm">Are you sure you want to delete this pharmacy? This action cannot be undone.</p>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-4 py-2 rounded-xl border border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={async () => {
+                  try {
+                    const res = await fetch(`/api/store/${storeId}`, { method: 'DELETE' });
+                    if (res.ok) router.push('/store');
+                  } catch (err) {
+                    alert('Error deleting pharmacy');
+                  }
+                }}
+                className="flex-1 px-4 py-2 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors shadow-md shadow-red-500/20"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

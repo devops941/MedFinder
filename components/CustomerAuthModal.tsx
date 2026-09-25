@@ -45,14 +45,12 @@ export default function CustomerAuthModal({ isOpen, onClose }: CustomerAuthModal
 
       if (data.success) {
         setMessage({ text: data.message, type: 'success' });
-        // After a delay, close the modal
-        setTimeout(() => {
-          onClose();
-          // Clear inputs for next time
-          setEmail(''); setPassword(''); setName(''); setMobile('');
-          setMode('login');
-          setMessage(null);
-        }, 1500);
+        // Close the modal
+        onClose();
+        // Clear inputs for next time
+        setEmail(''); setPassword(''); setName(''); setMobile('');
+        setMode('login');
+        setMessage(null);
       } else {
         setMessage({ text: data.message, type: 'error' });
       }

@@ -95,9 +95,7 @@ export default function RegisterStorePage() {
 
       if (data.success) {
         setMessage({ text: 'Pharmacy Registered Successfully! Redirecting...', type: 'success' });
-        setTimeout(() => {
-          router.push('/store');
-        }, 1500);
+        router.push('/store');
       } else {
         setMessage({ text: data.message || 'Error registering store', type: 'error' });
       }
